@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include <cmath>
 #include <conio.h>
 #include <windows.h>
@@ -26,6 +26,11 @@ struct point
 {
    float x,y,x2,y2;
 };
+
+struct hole
+{
+   float 
+}
 
 int main()
 {
@@ -121,9 +126,28 @@ int menu()
 }
 void game()
 {
+   int p=0;
+   int t=0;
+   int i=0;
    image=loadBMP("table.jpg");
    putimage(0,0,image,COPY_PUT);
-   fillellipse(47,55,25,25);
+   
+   while(1)
+  {
+      p=1-p;
+      setactivepage(p); // активная страница == 1-видимая
+      putimage(0,0,image,COPY_PUT); // цвет фона
+      ++t;
+     
+      fillellipse(i,55,25,25);
+      i++;
+      Sleep(100);
+     
+      // рисование изображения
+      setvisualpage(p); // делаем активную страницу видимой
+      delay(30); // задержка на 1/30 секунды
+      if(kbhit()) break; // если нажата клавиша - завершить работу
+  }
 }
 void help()
 {
