@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <cmath>
 #include <conio.h>
@@ -7,9 +8,9 @@
 #define PIE 3.14159265
 #define G 9.8065
 #define HOLEN 6
-#define HOLER 22
+#define HOLER 24
 #define BALLN 7
-#define BALLR 20
+#define BALLR 22
 
 void *image;
 
@@ -21,15 +22,44 @@ void game();
 void help();
 void about();
 int vibor();
+void move();
+
+float hole1[2]={64,64};
+float hole2[2]={500,64};
+float hole3[2]={936,64};
+float hole4[2]={64,534};
+float hole5[2]={500,534};
+float hole6[2]={936,534};
+
+   
+float ball1[2]={250,300};
+float ball2[2]={704,300};
+float ball3[2]={750,324};
+float ball4[2]={750,276};
+float ball5[2]={796,346};
+float ball6[2]={796,300};
+float ball7[2]={796,254};
+
+float ballspd=3;
+float ballfric=0.001;
+
 
 struct point
 {
    float x,y,x2,y2;
 };
 
-struct hole
+
+void move()
 {
-   float 
+   if(ballspd>ballfric*G)
+   {
+      ballspd-=ballfric*G;
+      ball1[0]+=cos((BALLR*PIE)/180)*ballspd;
+      ball1[1]+=sin((BALLR*PIE)/180)*ballspd;
+   }
+   else
+      ballspd=0;
 }
 
 int main()
@@ -128,31 +158,47 @@ void game()
 {
    int p=0;
    int t=0;
-   int i=0;
-   image=loadBMP("table.jpg");
-   putimage(0,0,image,COPY_PUT);
+   int i,j,k;
+   
    
    while(1)
   {
       p=1-p;
       setactivepage(p); // активная страница == 1-видимая
-      putimage(0,0,image,COPY_PUT); // цвет фона
+      setbkcolor(COLOR(117,51,19));// цвет фона
+      clearviewport();
       ++t;
      
-      fillellipse(i,55,25,25);
-      i++;
-      Sleep(100);
+      move();
+      setfillstyle(SOLID_FILL,GREEN);
+      bar(hole1[0],hole1[1],hole6[0],hole6[1]);
+      
+      setfillstyle(SOLID_FILL,COLOR(128,128,128));
+      fillellipse(hole1[0],hole1[1],HOLER,HOLER);
+      fillellipse(hole2[0],hole2[1],HOLER,HOLER);
+      fillellipse(hole3[0],hole3[1],HOLER,HOLER);
+      fillellipse(hole4[0],hole4[1],HOLER,HOLER);
+      fillellipse(hole5[0],hole5[1],HOLER,HOLER);
+      fillellipse(hole6[0],hole6[1],HOLER,HOLER);
+     
+      setfillstyle(SOLID_FILL,WHITE);
+      fillellipse(ball1[0],ball1[1],BALLR,BALLR);
+      fillellipse(ball2[0],ball2[1],BALLR,BALLR);
+      fillellipse(ball3[0],ball3[1],BALLR,BALLR);
+      fillellipse(ball4[0],ball4[1],BALLR,BALLR);
+      fillellipse(ball5[0],ball5[1],BALLR,BALLR);
+      fillellipse(ball6[0],ball6[1],BALLR,BALLR);
+      fillellipse(ball7[0],ball7[1],BALLR,BALLR);
      
       // рисование изображения
       setvisualpage(p); // делаем активную страницу видимой
-      delay(30); // задержка на 1/30 секунды
+      delay(15); // задержка на 1/30 секунды
       if(kbhit()) break; // если нажата клавиша - завершить работу
   }
 }
 void help()
 {
 }
-
 void about()
 {
 }
